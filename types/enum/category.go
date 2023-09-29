@@ -10,6 +10,9 @@ type Category string
 const (
 	CategoryPainting Category = "painting"
 	CategoryDrawing  Category = "drawing"
+	CategoryMixMedia Category = "mixed_media"
+	CategoryGraphic  Category = "digital"
+	CategoryOther    Category = "other"
 )
 
 func (s *Category) UnmarshalJSON(data []byte) error {
@@ -19,7 +22,7 @@ func (s *Category) UnmarshalJSON(data []byte) error {
 	}
 
 	category := Category(val)
-	if category != CategoryPainting && category != CategoryDrawing {
+	if category != CategoryPainting && category != CategoryDrawing && category != CategoryMixMedia && category != CategoryGraphic && category != CategoryOther {
 		return fmt.Errorf("invalid category enum value: %s", category)
 	}
 
