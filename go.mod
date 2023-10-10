@@ -6,7 +6,10 @@ require (
 	github.com/davecgh/go-spew v1.1.1
 	github.com/go-playground/validator/v10 v10.15.4
 	github.com/gofiber/fiber/v2 v2.49.2
+	github.com/gofiber/jwt/v3 v3.3.10
+	github.com/golang-jwt/jwt/v4 v4.5.0
 	github.com/sirupsen/logrus v1.9.3
+	golang.org/x/crypto v0.7.0
 	gopkg.in/yaml.v3 v3.0.1
 	gorm.io/driver/mysql v1.5.1
 	gorm.io/gorm v1.25.4
@@ -30,7 +33,6 @@ require (
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasthttp v1.49.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect
-	golang.org/x/crypto v0.7.0 // indirect
 	golang.org/x/net v0.8.0 // indirect
 	golang.org/x/sys v0.12.0 // indirect
 	golang.org/x/text v0.8.0 // indirect

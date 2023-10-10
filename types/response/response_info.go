@@ -14,7 +14,7 @@ type GenericInfoResponse[T any] struct {
 	Data    T      `json:"data,omitempty"`
 }
 
-func Success(args1 any, args2 ...any) *InfoResponse {
+func Info(args1 any, args2 ...any) *InfoResponse {
 	if message, ok := args1.(string); ok {
 		if len(args2) == 0 {
 			return &InfoResponse{
@@ -22,6 +22,7 @@ func Success(args1 any, args2 ...any) *InfoResponse {
 				Message: message,
 			}
 		}
+
 		if message2, ok := args2[0].(string); ok {
 			return &InfoResponse{
 				Success: true,
@@ -32,10 +33,11 @@ func Success(args1 any, args2 ...any) *InfoResponse {
 			return &InfoResponse{
 				Success: true,
 				Code:    message,
-				Data:    message2,
+				Message: message2,
 			}
 		}
 	}
+
 	return &InfoResponse{
 		Success: true,
 		Data:    args1,

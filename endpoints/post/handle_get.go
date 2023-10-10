@@ -31,7 +31,7 @@ func GetHandler(c *fiber.Ctx) error {
 		})
 	}
 
-	return c.JSON(response.Success(map[string]any{
+	return c.JSON(response.Info(map[string]any{
 		"posts": mappedPosts,
 	}))
 }

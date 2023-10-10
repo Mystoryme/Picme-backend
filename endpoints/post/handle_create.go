@@ -14,5 +14,5 @@ func CreateHandler(c *fiber.Ctx) error {
 
 	// TODO: Database operation
 
-	return c.JSON(response.Success("Successfully posted!"))
+	return c.JSON(response.Info("Successfully posted!"))
 }
