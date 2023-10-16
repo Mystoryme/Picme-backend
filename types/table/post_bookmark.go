@@ -4,7 +4,7 @@ import "time"
 
 type PostBookMark struct {
 	UserId              *uint64    `gorm:"primaryKey" json:"userId"` // user ที่เป็นคนกด bookmark
-	OwnerBookMarkPost   *Posts     `gorm:"foreignKey:BookMarkPostId"`
+	OwnerBookMarkPost   *Posts     `gorm:"foreignKey:OwnerBookMarkPostId"`
 	OwnerBookMarkPostId *uint64    `gorm:"not null"` //id ของpost ที่ถูก bookmark
 	Owner               *Users     `gorm:"foreignKey:OwnerId"`
 	OwnerId             *uint64    `gorm:"not null"` // userid ของpostที่โดนbookmark
