@@ -8,7 +8,7 @@ import (
 	"log"
 	"os"
 	mod "picme-backend/modules"
-	"picme-backend/types/model"
+	"picme-backend/types/table"
 	"time"
 )
 
@@ -44,14 +44,19 @@ func Init() {
 }
 
 func migrate() error {
-	// * Migrate model
+	// * Migrate table
 	if err := mod.DB.AutoMigrate(
-		new(model.PostComments),
-		new(model.PostLikes),
-		new(model.PostViews),
-		new(model.Posts),
-		new(model.User)); err != nil {
+		new(table.PostComments),
+		new(table.PostLikes),
+		new(table.PostViews),
+		new(table.Posts),
+		new(table.Users),
+		new(table.PostBookMark),
+		new(table.PostBoost),
+		new(table.PostDonate),
+		new(table.Message)); err != nil {
 		return err
+
 	}
 
 	return nil

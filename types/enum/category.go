@@ -9,9 +9,9 @@ type Category string
 
 const (
 	CategoryPainting Category = "painting"
-	CategoryDrawing  Category = "drawing"
-	CategoryMixMedia Category = "mixed_media"
-	CategoryGraphic  Category = "digital"
+	CategoryDrawing  Category = "drawing_&_illustration"
+	CategoryMixMedia Category = "mixed_media_&_collage"
+	CategoryGraphic  Category = "digital_/_graphic"
 	CategoryOther    Category = "other"
 )
 

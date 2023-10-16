@@ -3,14 +3,14 @@ package postEndpoint
 import (
 	"github.com/gofiber/fiber/v2"
 	mod "picme-backend/modules"
-	"picme-backend/types/model"
 	"picme-backend/types/payload"
 	"picme-backend/types/response"
+	"picme-backend/types/table"
 )
 
 func GetHandler(c *fiber.Ctx) error {
 	// * Query posts
-	var posts []*model.Posts
+	var posts []*table.Posts
 	if result := mod.DB.Preload("Owner").Find(&posts); result.Error != nil {
 		return response.Error(false, "Unable to query posts", result.Error)
 	}

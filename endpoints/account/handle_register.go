@@ -29,7 +29,7 @@ func RegisterHandler(c *fiber.Ctx) error {
 	}
 
 	// * Construct user row
-	user := &table.User{
+	user := &table.Users{
 		Id:             nil,
 		Username:       body.Username,
 		Email:          body.Email,

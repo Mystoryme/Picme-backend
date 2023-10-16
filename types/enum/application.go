@@ -11,6 +11,8 @@ const (
 	ApplicationProcreate       Application = "procreate"
 	ApplicationIbisPaintX      Application = "ibis_paintX"
 	ApplicationClipStudioPaint Application = "clip_studio_paint"
+	ApplicationBlender         Application = "blender"
+	ApplicationPhotoshop       Application = "photoshop"
 	ApplicationOther           Application = "other "
 )
 

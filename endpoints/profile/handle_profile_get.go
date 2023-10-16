@@ -15,7 +15,7 @@ func ProfileGetHandler(c *fiber.Ctx) error {
 	l := c.Locals("l").(*jwt.Token).Claims.(*misc.UserClaim)
 
 	// * Query user by id
-	var user *table.User
+	var user *table.Users
 	if result := mod.DB.Where("id = ?", l.Id).First(&user); result.Error != nil {
 		return response.Error(false, "Unable to query user", result.Error)
 	}
