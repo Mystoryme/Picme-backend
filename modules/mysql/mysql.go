@@ -46,11 +46,11 @@ func Init() {
 func migrate() error {
 	// * Migrate table
 	if err := mod.DB.AutoMigrate(
-		new(table.PostComments),
-		new(table.PostLikes),
+		new(table.PostComment),
+		new(table.PostLike),
 		new(table.PostViews),
-		new(table.Posts),
-		new(table.Users),
+		new(table.Post),
+		new(table.User),
 		new(table.PostBookMark),
 		new(table.PostBoost),
 		new(table.PostDonate),

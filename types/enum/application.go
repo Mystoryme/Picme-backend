@@ -21,9 +21,12 @@ func (s *Application) UnmarshalJSON(data []byte) error {
 	if err := json.Unmarshal(data, &val); err != nil {
 		return err
 	}
+	if err := json.Unmarshal(data, &val); err != nil {
+		return err
+	}
 
 	Application := Application(val)
-	if Application != ApplicationProcreate && Application != ApplicationIbisPaintX && Application != ApplicationClipStudioPaint && Application != ApplicationOther {
+	if Application != ApplicationProcreate && Application != ApplicationIbisPaintX && Application != ApplicationClipStudioPaint && Application != ApplicationBlender && Application != ApplicationPhotoshop && Application != ApplicationOther {
 		return fmt.Errorf("invalid Application enum value: %s", Application)
 	}
 

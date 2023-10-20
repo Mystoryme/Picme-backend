@@ -3,11 +3,10 @@ package table
 import "time"
 
 type PostBookMark struct {
-	UserId              *uint64    `gorm:"primaryKey" json:"userId"` // user ที่เป็นคนกด bookmark
-	OwnerBookMarkPost   *Posts     `gorm:"foreignKey:OwnerBookMarkPostId"`
-	OwnerBookMarkPostId *uint64    `gorm:"not null"` //id ของpost ที่ถูก bookmark
-	Owner               *Users     `gorm:"foreignKey:OwnerId"`
-	OwnerId             *uint64    `gorm:"not null"` // userid ของpostที่โดนbookmark
-	CreatedAt           *time.Time `gorm:"not null"` // Embedded field
+	User      *User      `gorm:"foreignKey:UserId"`
+	UserId    *uint64    `gorm:"not null"` //คนที่bookmark
+	Post      *Post      `gorm:"foreignKey:PostId"`
+	PostId    *uint64    `gorm:"not null"` //postของเจ้าของทีโดน bookmark
+	CreatedAt *time.Time `gorm:"not null"` // Embedded field
 
 }

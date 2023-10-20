@@ -29,13 +29,16 @@ func RegisterHandler(c *fiber.Ctx) error {
 	}
 
 	// * Construct user row
-	user := &table.Users{
-		Id:             nil,
-		Username:       body.Username,
-		Email:          body.Email,
-		HashedPassword: &hashedPassword,
-		CreatedAt:      nil,
-		UpdatedAt:      nil,
+	user := &table.User{
+		Id:        nil,
+		Username:  body.Username,
+		Email:     body.Email,
+		Password:  &hashedPassword,
+		Bio:       nil,
+		Contact:   nil,
+		AvatarUrl: nil,
+		CreatedAt: nil,
+		UpdatedAt: nil,
 	}
 
 	// * Create user row

@@ -11,21 +11,24 @@ import (
 )
 
 func ProfileGetHandler(c *fiber.Ctx) error {
-	// * Parse user JWT cookie
+	// * Parse user claims
 	l := c.Locals("l").(*jwt.Token).Claims.(*misc.UserClaim)
 
 	// * Query user by id
-	var user *table.Users
+	var user *table.User
 	if result := mod.DB.Where("id = ?", l.Id).First(&user); result.Error != nil {
 		return response.Error(false, "Unable to query user", result.Error)
 	}
 
 	// * Construct user
 	profile := &payload.ProfileInfo{
-		Username: user.Username,
-		//Name:     user.Name,
+		Id:        l.Id,
+		Username:  user.Username,
+		Bio:       user.Bio,
+		Contact:   user.Contact,
+		AvatarUrl: user.AvatarUrl,
 	}
 
 	// * Response
-	return c.JSON(response.Info(true, profile))
+	return c.JSON(response.Info(profile))
 }

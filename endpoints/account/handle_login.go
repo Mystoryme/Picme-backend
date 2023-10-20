@@ -24,13 +24,13 @@ func LoginHandler(c *fiber.Ctx) error {
 	}
 
 	// * Query user by username
-	var user *table.Users
+	var user *table.User
 	if result := mod.DB.Where("username = ?", body.Username).First(&user); result.Error != nil {
 		return response.Error(false, "Unable to query user", result.Error)
 	}
 
 	// * Check password
-	if crypto.ComparePassword(*body.Password, *user.HashedPassword) {
+	if crypto.ComparePassword(*body.Password, *user.Password) {
 		return response.Error(false, "Incorrect password")
 	}
 
