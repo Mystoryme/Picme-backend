@@ -3,6 +3,7 @@ package table
 import "time"
 
 type PostComment struct {
+	Id        *uint64    `gorm:"primaryKey:UserId"`
 	User      *User      `gorm:"foreignKey:UserId"`
 	UserId    *uint64    `gorm:"not null"` //คนที่like
 	Post      *Post      `gorm:"foreignKey:PostId"`

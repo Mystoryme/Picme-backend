@@ -1,4 +1,4 @@
-package comment
+package postEndpoint
 
 import (
 	"github.com/gofiber/fiber/v2"
@@ -11,12 +11,12 @@ import (
 	"picme-backend/utils/text"
 )
 
-func CreateHandler(c *fiber.Ctx) error {
+func DeleteHandler(c *fiber.Ctx) error {
 	// * Parse user claims
 	l := c.Locals("l").(*jwt.Token).Claims.(*misc.UserClaim)
 
 	// * Parse body
-	body := new(payload.CreateCommentBody)
+	body := new(payload.DeletePostRequest)
 	if err := c.BodyParser(body); err != nil {
 		return response.Error(false, "Unable to parse body", err)
 	}
@@ -25,22 +25,12 @@ func CreateHandler(c *fiber.Ctx) error {
 	if err := text.Validator.Struct(body); err != nil {
 		return err
 	}
-	//create
-	//ctr+space เติมfillแบบรวดเร็ว
-	comment := &table.PostComment{
-		Id:        nil,
-		User:      nil,
-		UserId:    l.Id,
-		Post:      nil,
-		PostId:    body.PostId,
-		Message:   body.Message,
-		CreatedAt: nil,
-		UpdatedAt: nil,
+
+	//delete
+	var post *table.Post
+	if result := mod.DB.Where("id = ? and owner_id = ? ", body.Id, l.Id).Delete(&post); result.Error != nil {
+		return response.Error(false, "Unable to delete the post", result.Error)
 	}
 
-	if result := mod.DB.Create(comment); result.Error != nil {
-		return response.Error(false, "Unable to comment post", result.Error)
-	}
-
-	return c.JSON(response.Info("Successfully comment!"))
+	return c.JSON(response.Info("Successfully delete post!"))
 }

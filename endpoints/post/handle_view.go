@@ -1,4 +1,4 @@
-package comment
+package postEndpoint
 
 import (
 	"github.com/gofiber/fiber/v2"
@@ -11,12 +11,12 @@ import (
 	"picme-backend/utils/text"
 )
 
-func CreateHandler(c *fiber.Ctx) error {
+func ViewHandler(c *fiber.Ctx) error {
 	// * Parse user claims
 	l := c.Locals("l").(*jwt.Token).Claims.(*misc.UserClaim)
 
 	// * Parse body
-	body := new(payload.CreateCommentBody)
+	body := new(payload.ViewBody)
 	if err := c.BodyParser(body); err != nil {
 		return response.Error(false, "Unable to parse body", err)
 	}
@@ -25,22 +25,21 @@ func CreateHandler(c *fiber.Ctx) error {
 	if err := text.Validator.Struct(body); err != nil {
 		return err
 	}
+
 	//create
 	//ctr+space เติมfillแบบรวดเร็ว
-	comment := &table.PostComment{
-		Id:        nil,
+
+	view := &table.PostViews{
 		User:      nil,
 		UserId:    l.Id,
 		Post:      nil,
 		PostId:    body.PostId,
-		Message:   body.Message,
 		CreatedAt: nil,
-		UpdatedAt: nil,
 	}
 
-	if result := mod.DB.Create(comment); result.Error != nil {
-		return response.Error(false, "Unable to comment post", result.Error)
+	if result := mod.DB.Create(view); result.Error != nil {
+		return response.Error(false, "Unable to view post", result.Error)
 	}
 
-	return c.JSON(response.Info("Successfully comment!"))
+	return c.JSON(response.Info("Successfully view!"))
 }

@@ -1,6 +1,8 @@
 package payload
 
-import "picme-backend/types/enum"
+import (
+	"picme-backend/types/enum"
+)
 
 type CreatePostBody struct {
 	ImageUrl    *string           `json:"imageUrl" validate:"required"`
@@ -25,4 +27,26 @@ type PostQuery struct {
 
 type CreateLikeBody struct {
 	PostId *uint64 `json:"postId"`
+}
+
+type CreateBookmarkBody struct {
+	PostId *uint64 `json:"postId"`
+}
+
+type ViewBody struct {
+	PostId *uint64 `json:"postId"`
+}
+
+type BoostBody struct {
+	PostId   *uint64 `json:"postId"`
+	BoostDay *int    `json:"boostDay"`
+}
+
+type CreateDonateBody struct {
+	PostId       *uint64 `json:"postId"`
+	DonateAmount *uint64 `json:"donateAmount"`
+}
+
+type DeletePostRequest struct {
+	Id *uint64 `json:"id"`
 }

@@ -25,10 +25,10 @@ func LikeHandler(c *fiber.Ctx) error {
 	if err := text.Validator.Struct(body); err != nil {
 		return err
 	}
-
+	//มีไ where user_id ด้วย เพราะจะนับ likecount ของคนนั้น ถ้าเป็ฯ 0 จะlike ได้ แต่ถ้าเป็น 1 แล้วจะlike ไม่ได้ละ
 	var likeCount int64
 	if result := mod.DB.Model(new(table.PostLike)).Where("post_id = ? and user_id = ?", body.PostId, l.Id).Count(&likeCount); result.Error != nil {
-		return response.Error(false, "Unable to count comments", result.Error)
+		return response.Error(false, "Unable to count likes", result.Error)
 	}
 	//create
 	//ctr+space เติมfillแบบรวดเร็ว

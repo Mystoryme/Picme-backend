@@ -23,3 +23,8 @@ type ProfilePostResponse struct {
 type ProfileQuery struct {
 	SortBy *enum.SortBy `query:"sortBy" validate:"omitempty,oneof=date like"`
 }
+
+type DonateBody struct {
+	UserId       *uint64 `json:"userId"`
+	DonateAmount *uint64 `json:"donateAmount"`
+}

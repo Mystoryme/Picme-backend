@@ -51,6 +51,7 @@ func migrate() error {
 		new(table.PostViews),
 		new(table.Post),
 		new(table.User),
+		new(table.UserDonate),
 		new(table.PostBookMark),
 		new(table.PostBoost),
 		new(table.PostDonate),

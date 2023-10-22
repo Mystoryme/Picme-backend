@@ -9,6 +9,10 @@ type CommentRequest struct {
 	PostId *uint64 `json:"postId"`
 }
 
+type DeleteCommentRequest struct {
+	Id *uint64 `json:"id"`
+}
+
 type CommentRespond struct {
 	UserId    *uint64 `json:"userId"`
 	Username  *string `json:"username"`
