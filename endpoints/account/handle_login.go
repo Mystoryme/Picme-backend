@@ -25,7 +25,7 @@ func LoginHandler(c *fiber.Ctx) error {
 
 	// * Query user by username
 	var user *table.User
-	if result := mod.DB.Where("username = ?", body.Username).First(&user); result.Error != nil {
+	if result := mod.DB.Where("email = ?", body.Email).First(&user); result.Error != nil {
 		return response.Error(false, "Unable to query user", result.Error)
 	}
 
