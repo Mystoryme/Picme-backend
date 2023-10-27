@@ -32,7 +32,7 @@ func GetHandler(c *fiber.Ctx) error {
 
 	// * Query posts
 	var posts []*table.Post
-	if result := db.Find(&posts); result.Error != nil {
+	if result := db.Order("RAND()").Find(&posts); result.Error != nil {
 		return response.Error(false, "Unable to query posts", result.Error)
 	}
 
