@@ -18,6 +18,7 @@ func Init(router fiber.Router) {
 	profile.Get("/info", profileEndpoint.ProfileGetHandler)
 	profile.Get("/post", profileEndpoint.ProfilePostGetHandler)
 	profile.Post("/donate", profileEndpoint.DonateHandler)
+	profile.Post("/edit", profileEndpoint.EditHandler)
 
 	post := router.Group("post/", middlewares.Jwt())
 	post.Get("/list", postEndpoint.GetHandler)
