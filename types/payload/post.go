@@ -29,7 +29,15 @@ type CreateLikeBody struct {
 	PostId *uint64 `json:"postId"`
 }
 
+type UnLikeBody struct {
+	PostId *uint64 `json:"postId"`
+}
+
 type CreateBookmarkBody struct {
+	PostId *uint64 `json:"postId"`
+}
+
+type UnBookmarkBody struct {
 	PostId *uint64 `json:"postId"`
 }
 
