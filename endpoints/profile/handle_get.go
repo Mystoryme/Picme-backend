@@ -1,6 +1,6 @@
 package profileEndpoint
 
-//profile page post
+//profile page post sortby
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v4"
@@ -53,6 +53,7 @@ func ProfilePostGetHandler(c *fiber.Ctx) error {
 			OwnerUsername: post.Owner.Username,
 			Caption:       post.Caption,
 			ImageUrl:      post.ImageUrl,
+			Application:   post.Application,
 			LikeCount:     post.LikeCount,
 			CommentCount:  post.CommentCount,
 		})

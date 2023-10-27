@@ -59,6 +59,7 @@ func GetHandler(c *fiber.Ctx) error {
 			OwnerUsername: post.Owner.Username,
 			Caption:       post.Caption,
 			ImageUrl:      post.ImageUrl,
+			Application:   post.Application,
 			LikeCount:     &likeCount,
 			CommentCount:  &commentCount,
 		})
