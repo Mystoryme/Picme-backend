@@ -3,9 +3,7 @@ package postEndpoint
 //หน้า home (post)
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/golang-jwt/jwt/v4"
 	mod "picme-backend/modules"
-	"picme-backend/types/misc"
 	"picme-backend/types/payload"
 	"picme-backend/types/response"
 	"picme-backend/types/table"
@@ -14,7 +12,7 @@ import (
 
 func GetHandler(c *fiber.Ctx) error {
 	// * Parse user claims
-	l := c.Locals("l").(*jwt.Token).Claims.(*misc.UserClaim)
+	//l := c.Locals("l").(*jwt.Token).Claims.(*misc.UserClaim)
 
 	// * Parse query
 	query := new(payload.PostQuery)
@@ -28,10 +26,8 @@ func GetHandler(c *fiber.Ctx) error {
 	}
 
 	db := mod.DB.Preload("Owner")
-	if query.Category == nil {
-		db = db.Where("owner_id = ?", l.Id)
-	} else {
-		db = db.Where("owner_id = ? AND category = ?", l.Id, query.Category)
+	if query.Category != nil {
+		db = db.Where("category = ?", query.Category)
 	}
 
 	// * Query posts
