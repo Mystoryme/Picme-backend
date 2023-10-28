@@ -31,6 +31,11 @@ type ProfilePostResponse struct {
 	CommentCount  *int64            `json:"commentCount"`
 }
 
+type GridPostResponse struct {
+	ImageUrl  *string `json:"imageUrl"`
+	LikeCount *int64  `json:"likeCount"`
+}
+
 type ProfileQuery struct {
 	SortBy *enum.SortBy `query:"sortBy" validate:"omitempty,oneof=date like"`
 }
