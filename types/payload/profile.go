@@ -11,9 +11,12 @@ type ProfileInfo struct {
 }
 
 type EditBody struct {
-	Username  *string `json:"username"`
-	Bio       *string `json:"bio"`
-	Contact   *string `json:"contact"`
+	Username *string `json:"username"`
+	Bio      *string `json:"bio"`
+	Contact  *string `json:"contact"`
+}
+
+type EditAvatarBody struct {
 	AvatarUrl *string `json:"avatarUrl"`
 }
 
