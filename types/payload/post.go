@@ -5,10 +5,9 @@ import (
 )
 
 type CreatePostBody struct {
-	ImageUrl    *string           `json:"imageUrl" validate:"required"`
-	Caption     *string           `json:"caption" validate:"required"`
-	Category    *enum.Category    `json:"category" validate:"required"`
-	Application *enum.Application `json:"application" validate:"required"`
+	Caption     *string           `form:"caption" validate:"required"`
+	Category    *enum.Category    `form:"category" validate:"required"`
+	Application *enum.Application `form:"application" validate:"required"`
 }
 
 type PostResponse struct {
