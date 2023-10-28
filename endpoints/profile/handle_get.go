@@ -44,7 +44,8 @@ func ProfilePostGetHandler(c *fiber.Ctx) error {
 	}
 
 	// * Map table to payload
-	var mappedPosts []*payload.ProfilePostResponse
+	//make ถ้าเป็น null จะเป็น array เปล่า
+	mappedPosts := make([]*payload.ProfilePostResponse, 0)
 	for _, post := range posts {
 
 		mappedPosts = append(mappedPosts, &payload.ProfilePostResponse{

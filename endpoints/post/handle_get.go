@@ -37,7 +37,7 @@ func GetHandler(c *fiber.Ctx) error {
 	}
 
 	// * Map table to payload
-	var mappedPosts []*payload.PostResponse
+	mappedPosts := make([]*payload.PostResponse, 0)
 	for _, post := range posts {
 		var likeCount int64
 		if result := mod.DB.Model(&table.PostLike{}).Where("post_id = ?", post.Id).Count(&likeCount); result.Error != nil {

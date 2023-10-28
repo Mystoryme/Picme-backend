@@ -30,7 +30,7 @@ func GetHandler(c *fiber.Ctx) error {
 	//	return response.Error(false, "Unable to query comments", result.Error)
 	//}
 
-	var comments []*table.PostComment
+	comments := make([]*table.PostComment, 0)
 	if result := mod.DB.Preload("User").Find(&comments, "post_id = ?", body.PostId); result.Error != nil {
 		return response.Error(false, "Unable to query comments", result.Error)
 	}

@@ -31,7 +31,7 @@ func SearchHandler(c *fiber.Ctx) error {
 	}
 
 	// * Map table to payload
-	var mappedUsers []*payload.SearchResponse
+	mappedUsers := make([]*payload.SearchResponse, 0)
 	for _, user := range users {
 
 		mappedUsers = append(mappedUsers, &payload.SearchResponse{
