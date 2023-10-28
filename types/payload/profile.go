@@ -36,3 +36,12 @@ type DonateBody struct {
 	UserId       *uint64 `json:"userId"`
 	DonateAmount *uint64 `json:"donateAmount"`
 }
+
+type SearchBody struct {
+	Username *string `json:"username"`
+}
+
+type SearchResponse struct {
+	Username  *string `json:"username"`
+	AvatarUrl *string `json:"avatarUrl"`
+}

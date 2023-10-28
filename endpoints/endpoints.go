@@ -4,6 +4,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"picme-backend/endpoints/account"
 	commentEndpoint "picme-backend/endpoints/comment"
+
 	"picme-backend/endpoints/post"
 	profileEndpoint "picme-backend/endpoints/profile"
 	"picme-backend/modules/fiber/middlewares"
@@ -19,6 +20,7 @@ func Init(router fiber.Router) {
 	profile.Get("/post", profileEndpoint.ProfilePostGetHandler)
 	profile.Post("/donate", profileEndpoint.DonateHandler)
 	profile.Post("/edit", profileEndpoint.EditHandler)
+	profile.Get("/search", profileEndpoint.SearchHandler)
 
 	post := router.Group("post/", middlewares.Jwt())
 	post.Get("/list", postEndpoint.GetHandler)
