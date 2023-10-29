@@ -39,16 +39,25 @@ func ProfilePostGetHandler(c *fiber.Ctx) error {
 
 	// * Query posts
 	var posts []*model.PostWithCount
-	if result := db.Model(new(table.Post)).Select("posts.*, (SELECT COUNT(*) FROM post_likes WHERE post_id = posts.id) AS like_count, (SELECT COUNT(*) FROM post_comments WHERE post_id = posts.id) as comment_count").Find(&posts); result.Error != nil {
+	if result := db.Model(new(table.Post)).Select("posts.*, (SELECT COUNT(*) FROM post_likes WHERE post_id = posts.id) AS like_count, (SELECT COUNT(*) FROM post_comments WHERE post_id = posts.id) as comment_count,"+"(SELECT COUNT(*) FROM post_likes WHERE post_id = posts.id AND user_id = ?) AS liked, "+
+		"(SELECT COUNT(*) FROM post_book_marks WHERE post_id = posts.id AND user_id = ?) AS booked", l.Id, l.Id).Find(&posts); result.Error != nil {
 		return response.Error(false, "Unable to query posts", result.Error)
 	}
 
-	like := false
 	for _, post := range posts {
-		if *post.LikeCount == 1 {
-			like = true
+		if *post.Liked == 1 {
+			post.IsLiked = true
+		} else {
+			post.IsLiked = false
 		}
+		if *post.Booked == 1 {
+			post.IsBooked = true
+		} else {
+			post.IsBooked = false
+		}
+
 	}
+
 	// * Map table to payload
 	//make ถ้าเป็น null จะเป็น array เปล่า
 	mappedPosts := make([]*payload.ProfilePostResponse, 0)
@@ -63,7 +72,8 @@ func ProfilePostGetHandler(c *fiber.Ctx) error {
 			Application:   post.Application,
 			LikeCount:     post.LikeCount,
 			CommentCount:  post.CommentCount,
-			IsLiked:       &like,
+			IsLiked:       &post.IsLiked,
+			IsBooked:      &post.IsBooked,
 		})
 	}
 

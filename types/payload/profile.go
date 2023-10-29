@@ -30,6 +30,7 @@ type ProfilePostResponse struct {
 	LikeCount     *int64            `json:"likeCount"`
 	CommentCount  *int64            `json:"commentCount"`
 	IsLiked       *bool             `json:"isLiked"`
+	IsBooked      *bool             `json:"isBooked"`
 }
 
 type GridPostResponse struct {
@@ -37,6 +38,7 @@ type GridPostResponse struct {
 	ImageUrl  *string `json:"imageUrl"`
 	LikeCount *int64  `json:"likeCount"`
 	IsLiked   *bool   `json:"isLiked"`
+	IsBooked  *bool   `json:"isBooked"`
 }
 
 type BookmarkPostResponse struct {

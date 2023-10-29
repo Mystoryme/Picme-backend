@@ -3,7 +3,9 @@ package postEndpoint
 //หน้า home (post)
 import (
 	"github.com/gofiber/fiber/v2"
+	"github.com/golang-jwt/jwt/v4"
 	mod "picme-backend/modules"
+	"picme-backend/types/misc"
 	"picme-backend/types/payload"
 	"picme-backend/types/response"
 	"picme-backend/types/table"
@@ -12,7 +14,7 @@ import (
 
 func GetHandler(c *fiber.Ctx) error {
 	// * Parse user claims
-	//l := c.Locals("l").(*jwt.Token).Claims.(*misc.UserClaim)
+	l := c.Locals("l").(*jwt.Token).Claims.(*misc.UserClaim)
 
 	// * Parse query
 	query := new(payload.PostQuery)
@@ -50,9 +52,23 @@ func GetHandler(c *fiber.Ctx) error {
 			return response.Error(false, "Unable to count comments", result.Error)
 		}
 
+		var liked int64
+		if result := mod.DB.Model(&table.PostLike{}).Where("post_id = ? AND user_id =?", post.Id, l.Id).Count(&liked); result.Error != nil {
+			return response.Error(false, "Unable to count likes", result.Error)
+
+		}
+		var booked int64
+		if result := mod.DB.Model(new(table.PostBookMark)).Where("post_id = ? AND user_id =?", post.Id, l.Id).Count(&booked); result.Error != nil {
+			return response.Error(false, "Unable to count books", result.Error)
+		}
+
 		like := false
-		if likeCount == 1 {
+		if liked == 1 {
 			like = true
+		}
+		book := false
+		if booked == 1 {
+			book = true
 		}
 		mappedPosts = append(mappedPosts, &payload.PostResponse{
 			PostId:        post.Id,
@@ -64,6 +80,7 @@ func GetHandler(c *fiber.Ctx) error {
 			LikeCount:     &likeCount,
 			CommentCount:  &commentCount,
 			IsLiked:       &like,
+			IsBooked:      &book,
 		})
 	}
 

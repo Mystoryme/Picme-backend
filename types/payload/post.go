@@ -20,6 +20,7 @@ type PostResponse struct {
 	LikeCount     *int64            `json:"likeCount"`
 	CommentCount  *int64            `json:"commentCount"`
 	IsLiked       *bool             `json:"isLiked"`
+	IsBooked      *bool             `json:"isBooked"`
 }
 
 type PostQuery struct {
