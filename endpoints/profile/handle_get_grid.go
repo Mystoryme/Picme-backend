@@ -44,14 +44,24 @@ func GridPostGetHandler(c *fiber.Ctx) error {
 		return response.Error(false, "Unable to query posts", result.Error)
 	}
 
+	like := false
+	for _, post := range posts {
+		if *post.LikeCount == 1 {
+			like = true
+		}
+
+	}
+
 	// * Map table to payload
 	//make ถ้าเป็น null จะเป็น array เปล่า
 	mappedPosts := make([]*payload.GridPostResponse, 0)
 	for _, post := range posts {
 
 		mappedPosts = append(mappedPosts, &payload.GridPostResponse{
+			PostId:    post.Id,
 			ImageUrl:  post.ImageUrl,
-			LikeCount: post.LikeCount, // ใส่เพื่อจะได้ดูว่าเรียงตามlikeหรือเปล่า
+			LikeCount: post.LikeCount,
+			IsLiked:   &like,
 		})
 	}
 

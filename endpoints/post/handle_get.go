@@ -49,6 +49,11 @@ func GetHandler(c *fiber.Ctx) error {
 		if result := mod.DB.Model(new(table.PostComment)).Where("post_id = ?", post.Id).Count(&commentCount); result.Error != nil {
 			return response.Error(false, "Unable to count comments", result.Error)
 		}
+
+		like := false
+		if likeCount == 1 {
+			like = true
+		}
 		mappedPosts = append(mappedPosts, &payload.PostResponse{
 			PostId:        post.Id,
 			OwnerId:       post.OwnerId,
@@ -58,6 +63,7 @@ func GetHandler(c *fiber.Ctx) error {
 			Application:   post.Application,
 			LikeCount:     &likeCount,
 			CommentCount:  &commentCount,
+			IsLiked:       &like,
 		})
 	}
 

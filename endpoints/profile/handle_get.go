@@ -43,6 +43,12 @@ func ProfilePostGetHandler(c *fiber.Ctx) error {
 		return response.Error(false, "Unable to query posts", result.Error)
 	}
 
+	like := false
+	for _, post := range posts {
+		if *post.LikeCount == 1 {
+			like = true
+		}
+	}
 	// * Map table to payload
 	//make ถ้าเป็น null จะเป็น array เปล่า
 	mappedPosts := make([]*payload.ProfilePostResponse, 0)
@@ -57,6 +63,7 @@ func ProfilePostGetHandler(c *fiber.Ctx) error {
 			Application:   post.Application,
 			LikeCount:     post.LikeCount,
 			CommentCount:  post.CommentCount,
+			IsLiked:       &like,
 		})
 	}
 

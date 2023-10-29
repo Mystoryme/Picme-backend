@@ -19,6 +19,7 @@ type PostResponse struct {
 	Application   *enum.Application `json:"application"`
 	LikeCount     *int64            `json:"likeCount"`
 	CommentCount  *int64            `json:"commentCount"`
+	IsLiked       *bool             `json:"isLiked"`
 }
 
 type PostQuery struct {

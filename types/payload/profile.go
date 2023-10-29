@@ -29,9 +29,18 @@ type ProfilePostResponse struct {
 	Application   *enum.Application `json:"application"`
 	LikeCount     *int64            `json:"likeCount"`
 	CommentCount  *int64            `json:"commentCount"`
+	IsLiked       *bool             `json:"isLiked"`
 }
 
 type GridPostResponse struct {
+	PostId    *uint64 `json:"postId"`
+	ImageUrl  *string `json:"imageUrl"`
+	LikeCount *int64  `json:"likeCount"`
+	IsLiked   *bool   `json:"isLiked"`
+}
+
+type BookmarkPostResponse struct {
+	PostId    *uint64 `json:"postId"`
 	ImageUrl  *string `json:"imageUrl"`
 	LikeCount *int64  `json:"likeCount"`
 }
