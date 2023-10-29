@@ -61,6 +61,11 @@ type SearchBody struct {
 }
 
 type SearchResponse struct {
+	UserId    *uint64 `json:"userId"`
 	Username  *string `json:"username"`
 	AvatarUrl *string `json:"avatarUrl"`
+}
+
+type ProfileSearchBody struct {
+	UserId *uint64 `json:"userId"`
 }

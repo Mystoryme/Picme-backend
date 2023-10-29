@@ -35,6 +35,7 @@ func SearchHandler(c *fiber.Ctx) error {
 	for _, user := range users {
 
 		mappedUsers = append(mappedUsers, &payload.SearchResponse{
+			UserId:    user.Id,
 			Username:  user.Username,
 			AvatarUrl: user.AvatarUrl,
 		})
