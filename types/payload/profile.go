@@ -45,6 +45,8 @@ type BookmarkPostResponse struct {
 	PostId    *uint64 `json:"postId"`
 	ImageUrl  *string `json:"imageUrl"`
 	LikeCount *int64  `json:"likeCount"`
+	IsLiked   *bool   `json:"isLiked"`
+	IsBooked  *bool   `json:"isBooked"`
 }
 
 type ProfileQuery struct {
