@@ -22,10 +22,10 @@ func Init(router fiber.Router) {
 	profile.Get("/bookmarkpost", profileEndpoint.BookmarkPostGetHandler)
 	profile.Post("/donate", profileEndpoint.DonateHandler)
 	profile.Post("/edit", profileEndpoint.EditHandler)
-	profile.Get("/search", profileEndpoint.SearchHandler)
-	profile.Get("/profile_search", profileEndpoint.ProfileSearchGetHandler)
-	profile.Get("/post_search", profileEndpoint.PostSearchGetHandler)
-	profile.Get("/grid_search", profileEndpoint.GridSearchGetHandler)
+	profile.Post("/search", profileEndpoint.SearchHandler)
+	profile.Post("/profile_search", profileEndpoint.ProfileSearchGetHandler)
+	profile.Post("/post_search", profileEndpoint.PostSearchGetHandler)
+	profile.Post("/grid_search", profileEndpoint.GridSearchGetHandler)
 	profile.Post("/avatar", profileEndpoint.AvatarHandler)
 
 	post := router.Group("post/", middlewares.Jwt())
@@ -42,7 +42,7 @@ func Init(router fiber.Router) {
 
 	comment := router.Group("comment/", middlewares.Jwt())
 	comment.Post("/create", commentEndpoint.CreateHandler)
-	comment.Get("/list", commentEndpoint.GetHandler)
+	comment.Post("/list", commentEndpoint.GetHandler)
 	comment.Delete("/delete", commentEndpoint.DeleteHandler)
 
 }
