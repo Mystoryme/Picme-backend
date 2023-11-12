@@ -13,7 +13,7 @@ const (
 	ApplicationClipStudioPaint Application = "clip_studio_paint"
 	ApplicationBlender         Application = "blender"
 	ApplicationPhotoshop       Application = "photoshop"
-	ApplicationOther           Application = "other "
+	ApplicationOther           Application = "other"
 )
 
 func (s *Application) UnmarshalJSON(data []byte) error {

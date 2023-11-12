@@ -32,7 +32,7 @@ func BookmarkPostGetHandler(c *fiber.Ctx) error { // * Parse user claims
 		Where("post_book_marks.user_id = ?", l.Id)
 
 	if query.SortBy == nil || *query.SortBy == enum.SortByDate {
-		db = db.Order("created_at DESC")
+		db = db.Order("post_book_marks.created_at DESC")
 	} else if *query.SortBy == enum.SortByLike {
 		db = db.Order("like_count DESC")
 	}

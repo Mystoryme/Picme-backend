@@ -6,8 +6,8 @@ import (
 
 type CreatePostBody struct {
 	Caption     *string           `form:"caption" validate:"required"`
-	Category    *enum.Category    `form:"category" validate:"required"`
-	Application *enum.Application `form:"application" validate:"required"`
+	Category    *enum.Category    `form:"category" validate:"required,oneof=painting drawing mixedmedia digital other"`
+	Application *enum.Application `form:"application" validate:"required,oneof=procreate ibis_paintX clip_studio_paint blender photoshop other"`
 }
 
 type PostResponse struct {
