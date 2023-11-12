@@ -26,7 +26,7 @@ func SearchHandler(c *fiber.Ctx) error {
 
 	// * Query posts
 	var users []*table.User
-	if result := mod.DB.Where("username LIKE ?", "%"+*body.Username+"%").Find(&users); result.Error != nil {
+	if result := mod.DB.Where("username LIKE ?", "%"+*body.Username+"%").Limit(5).Find(&users); result.Error != nil {
 		return response.Error(false, "Unable to query posts", result.Error)
 	}
 
