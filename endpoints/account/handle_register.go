@@ -43,7 +43,7 @@ func RegisterHandler(c *fiber.Ctx) error {
 
 	// * Create user row
 	if result := mod.DB.Create(user); result.Error != nil {
-		return response.Error(false, "This username already exist ")
+		return response.Error(false, "This username already exist")
 	}
 
 	// * Response

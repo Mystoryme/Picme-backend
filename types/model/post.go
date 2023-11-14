@@ -18,3 +18,8 @@ type BookmarkPostWithCount struct {
 	LikeCount    *int64
 	CommentCount *int64
 }
+
+type BoostPostwithImage struct {
+	table.PostBoost
+	ImageUrl *string
+}

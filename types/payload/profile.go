@@ -49,6 +49,11 @@ type BookmarkPostResponse struct {
 	IsBooked  *bool   `json:"isBooked"`
 }
 
+type BoostPostResponse struct {
+	PostId   *uint64 `json:"postId"`
+	ImageUrl *string `json:"imageUrl"`
+}
+
 type ProfileQuery struct {
 	SortBy *enum.SortBy `query:"sortBy" validate:"omitempty,oneof=date like"`
 }
