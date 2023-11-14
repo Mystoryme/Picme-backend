@@ -60,3 +60,7 @@ type CreateDonateBody struct {
 type DeletePostRequest struct {
 	PostId *uint64 `json:"postId"`
 }
+
+type GetPostRequest struct {
+	PostId *uint64 `json:"postId"`
+}
