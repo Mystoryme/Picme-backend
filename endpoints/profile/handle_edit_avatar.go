@@ -47,7 +47,7 @@ func AvatarHandler(c *fiber.Ctx) error {
 	// * Generate filename
 
 	filename := text.GenerateRandomString(12) + "_" + fileHeader.Filename
-	imageUrl := "https://" + mod.Conf.BucketEndpoint + "/" + mod.Conf.BucketName + "/avatar/" + filename
+	imageUrl := "https://" + mod.Conf.BucketEndpoint + "/" + mod.Conf.BucketName + "/" + filename
 
 	// * Upload file to minio
 	info, err := mod.Minio.PutObject(
