@@ -46,7 +46,7 @@ func EditHandler(c *fiber.Ctx) error {
 	}
 
 	if result := mod.DB.Save(&user); result.Error != nil {
-		return response.Error(false, "Unable to update user profile", result.Error)
+		return response.Error(false, "This username already exist", result.Error)
 	}
 
 	return c.JSON(response.Info("Successfully update!"))
