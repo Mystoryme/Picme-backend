@@ -44,9 +44,10 @@ func CreateHandler(c *fiber.Ctx) error {
 		return response.Error(false, "Unable to comment post", result.Error)
 	}
 
-	postOwner := new(table.User)
-	if result := mod.DB.First(postOwner, "post_id = ?", body.PostId); result.Error != nil {
-		return response.Error(false, "Unable to query post owner", result.Error)
+	currentPost := new(table.Post)
+
+	if result := mod.DB.Preload("Owner").First(currentPost, "id = ?", body.PostId); result.Error != nil {
+		return response.Error(false, "Unable to query post", result.Error)
 	}
 
 	commentType := enum.NotificationComment
@@ -56,7 +57,7 @@ func CreateHandler(c *fiber.Ctx) error {
 		Post:             nil,
 		PostId:           body.PostId,
 		Triggee:          nil,
-		TriggeeId:        postOwner.Id,
+		TriggeeId:        currentPost.OwnerId,
 		NotificationType: &commentType,
 		CreatedAt:        nil,
 	}
