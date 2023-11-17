@@ -47,9 +47,10 @@ func LikeHandler(c *fiber.Ctx) error {
 			return response.Error(false, "Unable to like post", result.Error)
 		}
 	}
-	postOwner := new(table.User)
-	if result := mod.DB.First(postOwner, "post_id = ?", body.PostId); result.Error != nil {
-		return response.Error(false, "Unable to query post owner", result.Error)
+	currentPost := new(table.Post)
+
+	if result := mod.DB.Preload("Owner").First(currentPost, "id = ?", body.PostId); result.Error != nil {
+		return response.Error(false, "Unable to query post", result.Error)
 	}
 
 	likeType := enum.NotificationLike
@@ -57,7 +58,7 @@ func LikeHandler(c *fiber.Ctx) error {
 		Trigger:          nil,
 		TriggerId:        l.Id,
 		Triggee:          nil,
-		TriggeeId:        postOwner.Id,
+		TriggeeId:        currentPost.OwnerId,
 		Post:             nil,
 		PostId:           body.PostId,
 		NotificationType: &likeType,
