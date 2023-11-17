@@ -39,7 +39,7 @@ func Init(router fiber.Router) {
 	post.Post("/donate", postEndpoint.DonateHandler)
 	post.Post("/view", postEndpoint.ViewHandler)
 	post.Post("/boost", postEndpoint.BoostHandler)
-	post.Get("/listbook", postEndpoint.GetBoostHandler)
+	post.Get("/listboost", postEndpoint.GetBoostHandler)
 	post.Post("/post_get", postEndpoint.GetPostHandler)
 
 	comment := router.Group("comment/", middlewares.Jwt())
