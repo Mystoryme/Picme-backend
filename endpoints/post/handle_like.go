@@ -48,7 +48,7 @@ func LikeHandler(c *fiber.Ctx) error {
 		}
 	}
 	postOwner := new(table.User)
-	if result := mod.DB.First(postOwner, "id = ?", body.PostId); result.Error != nil {
+	if result := mod.DB.First(postOwner, "post_id = ?", body.PostId); result.Error != nil {
 		return response.Error(false, "Unable to query post owner", result.Error)
 	}
 
