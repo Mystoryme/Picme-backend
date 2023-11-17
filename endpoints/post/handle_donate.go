@@ -44,10 +44,17 @@ func DonateHandler(c *fiber.Ctx) error {
 		return response.Error(false, "Unable to donate post", result.Error)
 	}
 
+	postOwner := new(table.User)
+	if result := mod.DB.First(postOwner, "id = ?", body.PostId); result.Error != nil {
+		return response.Error(false, "Unable to query post owner", result.Error)
+	}
+
 	postDonateType := enum.NotificationPostDonate
 	notification := &table.Notification{
 		Trigger:          nil,
 		TriggerId:        l.Id,
+		Triggee:          nil,
+		TriggeeId:        postOwner.Id,
 		Post:             nil,
 		PostId:           body.PostId,
 		NotificationType: &postDonateType,

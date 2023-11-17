@@ -44,12 +44,19 @@ func CreateHandler(c *fiber.Ctx) error {
 		return response.Error(false, "Unable to comment post", result.Error)
 	}
 
+	postOwner := new(table.User)
+	if result := mod.DB.First(postOwner, "id = ?", body.PostId); result.Error != nil {
+		return response.Error(false, "Unable to query post owner", result.Error)
+	}
+
 	commentType := enum.NotificationComment
 	notification := &table.Notification{
 		Trigger:          nil,
 		TriggerId:        l.Id,
 		Post:             nil,
 		PostId:           body.PostId,
+		Triggee:          nil,
+		TriggeeId:        postOwner.Id,
 		NotificationType: &commentType,
 		CreatedAt:        nil,
 	}

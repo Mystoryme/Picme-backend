@@ -48,6 +48,8 @@ func DonateHandler(c *fiber.Ctx) error {
 	notification := &table.Notification{
 		Trigger:          nil,
 		TriggerId:        l.Id,
+		Post:             nil,
+		PostId:           nil,
 		Triggee:          nil,
 		TriggeeId:        body.UserId,
 		NotificationType: &userDonateType,
