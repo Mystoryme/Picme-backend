@@ -1,13 +1,14 @@
 package endpoints
 
 import (
-	"github.com/gofiber/fiber/v2"
-	"picme-backend/endpoints/account"
+	accountEndpoint "picme-backend/endpoints/account"
 	commentEndpoint "picme-backend/endpoints/comment"
-
-	"picme-backend/endpoints/post"
+	notificationEndpoint "picme-backend/endpoints/notification"
+	postEndpoint "picme-backend/endpoints/post"
 	profileEndpoint "picme-backend/endpoints/profile"
 	"picme-backend/modules/fiber/middlewares"
+
+	"github.com/gofiber/fiber/v2"
 )
 
 func Init(router fiber.Router) {
@@ -47,4 +48,6 @@ func Init(router fiber.Router) {
 	comment.Post("/list", commentEndpoint.GetHandler)
 	comment.Delete("/delete", commentEndpoint.DeleteHandler)
 
+	notification := router.Group("notification/", middlewares.Jwt())
+	notification.Get("/list", notificationEndpoint.GetHandler)
 }

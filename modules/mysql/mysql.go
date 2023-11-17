@@ -1,15 +1,16 @@
 package mysql
 
 import (
-	"github.com/sirupsen/logrus"
-	"gorm.io/driver/mysql"
-	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
 	"log"
 	"os"
 	mod "picme-backend/modules"
 	"picme-backend/types/table"
 	"time"
+
+	"github.com/sirupsen/logrus"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
 func Init() {
@@ -46,6 +47,7 @@ func Init() {
 func migrate() error {
 	// * Migrate table
 	if err := mod.DB.AutoMigrate(
+		new(table.Notification),
 		new(table.PostComment),
 		new(table.PostLike),
 		new(table.PostViews),

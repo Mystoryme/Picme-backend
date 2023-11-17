@@ -1,14 +1,16 @@
 package postEndpoint
 
 import (
-	"github.com/gofiber/fiber/v2"
-	"github.com/golang-jwt/jwt/v4"
 	mod "picme-backend/modules"
+	"picme-backend/types/enum"
 	"picme-backend/types/misc"
 	"picme-backend/types/payload"
 	"picme-backend/types/response"
 	"picme-backend/types/table"
 	"picme-backend/utils/text"
+
+	"github.com/gofiber/fiber/v2"
+	"github.com/golang-jwt/jwt/v4"
 )
 
 func DonateHandler(c *fiber.Ctx) error {
@@ -40,6 +42,20 @@ func DonateHandler(c *fiber.Ctx) error {
 
 	if result := mod.DB.Create(donate); result.Error != nil {
 		return response.Error(false, "Unable to donate post", result.Error)
+	}
+
+	postDonateType := enum.NotificationPostDonate
+	notification := &table.Notification{
+		Trigger:          nil,
+		TriggerId:        l.Id,
+		Post:             nil,
+		PostId:           body.PostId,
+		NotificationType: &postDonateType,
+		CreatedAt:        nil,
+	}
+
+	if result := mod.DB.Create(&notification); result.Error != nil {
+		return response.Error(false, "Unable to create notification", result.Error)
 	}
 
 	return c.JSON(response.Info("Successfully donate!"))
