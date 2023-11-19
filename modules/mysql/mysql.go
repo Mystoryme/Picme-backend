@@ -47,6 +47,7 @@ func Init() {
 func migrate() error {
 	// * Migrate table
 	if err := mod.DB.AutoMigrate(
+		new(table.Insight),
 		new(table.Notification),
 		new(table.PostComment),
 		new(table.PostLike),

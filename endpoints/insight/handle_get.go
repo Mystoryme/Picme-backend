@@ -37,27 +37,63 @@ func GetHandler(c *fiber.Ctx) error {
 	)
 
 	var wg sync.WaitGroup
-	wg.Add(4)
+	wg.Add(8)
 
 	// Use goroutines for concurrent database queries
 	go func() {
 		defer wg.Done()
-		mod.DB.Raw("SELECT views, likes FROM posts WHERE triggee_id = ? AND created_at >= CURDATE() - INTERVAL 1 WEEK AND created_at < CURDATE()", l.Id).Scan(&lastWeek)
+		views := 0
+		mod.DB.Raw("SELECT COUNT(*) FROM insights WHERE triggee_id = ? AND insight_type = 'view' AND created_at >= CURDATE() - INTERVAL 1 WEEK", l.Id).Scan(&views)
+		lastWeek.Views = int64(views)
 	}()
 
 	go func() {
 		defer wg.Done()
-		mod.DB.Raw("SELECT views, likes FROM posts WHERE triggee_id = ? AND created_at >= CURDATE() - INTERVAL 2 WEEK AND created_at < CURDATE() - INTERVAL 1 WEEK", l.Id).Scan(&last2Week)
+		likes := 0
+		mod.DB.Raw("SELECT COUNT(*) FROM insights WHERE triggee_id = ? AND insight_type = 'like'  AND created_at >= CURDATE() - INTERVAL 1 WEEK", l.Id).Scan(&likes)
+		lastWeek.Likes = int64(likes)
 	}()
 
 	go func() {
 		defer wg.Done()
-		mod.DB.Raw("SELECT views, likes FROM posts WHERE triggee_id = ? AND created_at >= CURDATE() - INTERVAL 3 WEEK AND created_at < CURDATE() - INTERVAL 2 WEEK", l.Id).Scan(&last3Week)
+		views := 0
+		mod.DB.Raw("SELECT COUNT(*) FROM insights WHERE triggee_id = ? AND insight_type = 'view' AND created_at >= CURDATE() - INTERVAL 2 WEEK AND created_at <= CURDATE() - INTERVAL 1 WEEK", l.Id).Scan(&views)
+		last2Week.Views = int64(views)
 	}()
 
 	go func() {
 		defer wg.Done()
-		mod.DB.Raw("SELECT views, likes FROM posts WHERE triggee_id = ? AND created_at >= CURDATE() - INTERVAL 4 WEEK AND created_at < CURDATE() - INTERVAL 3 WEEK", l.Id).Scan(&last4Week)
+		likes := 0
+		mod.DB.Raw("SELECT COUNT(*) FROM insights WHERE triggee_id = ? AND insight_type = 'like' AND created_at >= CURDATE() - INTERVAL 2 WEEK AND created_at <= CURDATE() - INTERVAL 1 WEEK", l.Id).Scan(&likes)
+		last2Week.Likes = int64(likes)
+	}()
+
+	go func() {
+		defer wg.Done()
+		views := 0
+		mod.DB.Raw("SELECT COUNT(*) FROM insights WHERE triggee_id = ? AND insight_type = 'view' AND created_at >= CURDATE() - INTERVAL 3 WEEK AND created_at <= CURDATE() - INTERVAL 2 WEEK", l.Id).Scan(&views)
+		last3Week.Views = int64(views)
+	}()
+
+	go func() {
+		defer wg.Done()
+		likes := 0
+		mod.DB.Raw("SELECT COUNT(*) FROM insights WHERE triggee_id = ? AND insight_type = 'like' AND created_at >= CURDATE() - INTERVAL 3 WEEK AND created_at <= CURDATE() - INTERVAL 2 WEEK", l.Id).Scan(&likes)
+		last3Week.Likes = int64(likes)
+	}()
+
+	go func() {
+		defer wg.Done()
+		views := 0
+		mod.DB.Raw("SELECT COUNT(*) FROM insights WHERE triggee_id = ? AND insight_type = 'view' AND created_at >= CURDATE() - INTERVAL 4 WEEK AND created_at < CURDATE() - INTERVAL 3 WEEK", l.Id).Scan(&views)
+		last4Week.Views = int64(views)
+	}()
+
+	go func() {
+		defer wg.Done()
+		likes := 0
+		mod.DB.Raw("SELECT COUNT(*) FROM insights WHERE triggee_id = ? AND insight_type = 'like' AND created_at >= CURDATE() - INTERVAL 4 WEEK AND created_at < CURDATE() - INTERVAL 3 WEEK", l.Id).Scan(&likes)
+		last4Week.Likes = int64(likes)
 	}()
 
 	// Wait for all goroutines to finish

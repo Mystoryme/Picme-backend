@@ -17,6 +17,6 @@ type InsightResponse struct {
 }
 
 type InsightObject struct {
-	views int64 `json:"views"`
-	likes int64 `json:"likes"`
+	Views int64 `json:"views"`
+	Likes int64 `json:"likes"`
 }

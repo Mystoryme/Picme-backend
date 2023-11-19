@@ -53,5 +53,5 @@ func Init(router fiber.Router) {
 	notification.Get("/list", notificationEndpoint.GetHandler)
 
 	insight := router.Group("insight/", middlewares.Jwt())
-	insight.Get("/list", insightEndpoint.GetHandler)
+	insight.Get("/", insightEndpoint.GetHandler)
 }
