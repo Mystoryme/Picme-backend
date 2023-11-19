@@ -48,8 +48,7 @@ func GetHandler(c *fiber.Ctx) error {
 			},
 			TriggerId: notification.TriggerId,
 			Post: &payload.PostResponse{
-				PostId: notification.Post.Id,
-			},
+				PostId: notification.Post.Id,			},
 			PostId:           notification.PostId,
 			NotificationType: notification.NotificationType,
 			CreatedAt:        notification.CreatedAt,

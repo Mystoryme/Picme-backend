@@ -1,6 +1,7 @@
 package postEndpoint
 
 import (
+	"fmt"
 	mod "picme-backend/modules"
 	"picme-backend/types/enum"
 	"picme-backend/types/misc"
@@ -53,21 +54,35 @@ func LikeHandler(c *fiber.Ctx) error {
 		return response.Error(false, "Unable to query post", result.Error)
 	}
 
-	likeType := enum.NotificationLike
-	notification := &table.Notification{
-		Trigger:          nil,
-		TriggerId:        l.Id,
-		Triggee:          nil,
-		TriggeeId:        currentPost.OwnerId,
-		Post:             nil,
-		PostId:           body.PostId,
-		NotificationType: &likeType,
-		CreatedAt:        nil,
-	}
+	go func() {
+		likeType := enum.NotificationLike
+		insightLikeType := enum.InsightLike
+		notification := &table.Notification{
+			Trigger:          nil,
+			TriggerId:        l.Id,
+			Triggee:          nil,
+			TriggeeId:        currentPost.OwnerId,
+			Post:             nil,
+			PostId:           body.PostId,
+			NotificationType: &likeType,
+			CreatedAt:        nil,
+		}
 
-	if result := mod.DB.Create(&notification); result.Error != nil {
-		return response.Error(false, "Unable to create notification", result.Error)
-	}
+		if result := mod.DB.Create(&notification); result.Error != nil {
+			fmt.Printf("Unable to create notification %v", result.Error)
+		}
+
+		if result := mod.DB.Create(&table.Insight{
+			Trigger:     nil,
+			TriggerId:   l.Id,
+			Triggee:     nil,
+			TriggeeId:   currentPost.OwnerId,
+			InsightType: &insightLikeType,
+			CreatedAt:   nil,
+		}); result.Error != nil {
+			fmt.Printf("Unable to create insight %v", result.Error)
+		}
+	}()
 
 	return c.JSON(response.Info("Successfully like!"))
 }
