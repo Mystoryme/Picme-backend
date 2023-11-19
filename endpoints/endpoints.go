@@ -3,6 +3,7 @@ package endpoints
 import (
 	accountEndpoint "picme-backend/endpoints/account"
 	commentEndpoint "picme-backend/endpoints/comment"
+	insightEndpoint "picme-backend/endpoints/insight"
 	notificationEndpoint "picme-backend/endpoints/notification"
 	postEndpoint "picme-backend/endpoints/post"
 	profileEndpoint "picme-backend/endpoints/profile"
@@ -50,4 +51,7 @@ func Init(router fiber.Router) {
 
 	notification := router.Group("notification/", middlewares.Jwt())
 	notification.Get("/list", notificationEndpoint.GetHandler)
+
+	insight := router.Group("insight/", middlewares.Jwt())
+	insight.Get("/list", insightEndpoint.GetHandler)
 }
