@@ -8,8 +8,9 @@ import (
 type Insight string
 
 const (
-	InsightView Insight = "view"
-	InsightLike Insight = "like"
+	InsightView   Insight = "view"
+	InsightLike   Insight = "like"
+	InsightSearch Insight = "search"
 )
 
 func (s *Insight) UnmarshalJSON(data []byte) error {
@@ -22,7 +23,7 @@ func (s *Insight) UnmarshalJSON(data []byte) error {
 	}
 
 	Insight := Insight(val)
-	if Insight != InsightView && Insight != InsightLike {
+	if Insight != InsightView && Insight != InsightLike && Insight != InsightSearch {
 		return fmt.Errorf("invalid Insight enum value: %s", Insight)
 	}
 
