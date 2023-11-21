@@ -13,19 +13,19 @@ import (
 
 func GetSearch(c *fiber.Ctx) error {
 
-	// Parse query
-	query := new(payload.SearchQuery)
-	if err := c.QueryParser(query); err != nil || query.Username == nil {
+	// Parse body
+	body := new(payload.SearchQuery)
+	if err := c.BodyParser(body); err != nil || body.Username == nil {
 		return response.Error(false, "Unable to parse body", err)
 	}
 
-	// Validate query
-	if err := text.Validator.Struct(query); err != nil {
+	// Validate body
+	if err := text.Validator.Struct(body); err != nil {
 		return err
 	}
 
 	users := make([]payload.ProfileInfo, 0)
-	if err := mod.DB.Table("users").Where("username LIKE ?", "%"+*query.Username+"%").Find(&users).Error; err != nil {
+	if err := mod.DB.Table("users").Where("username LIKE ?", "%"+*body.Username+"%").Find(&users).Error; err != nil {
 		return response.Error(false, "Unable to find users", err)
 	}
 

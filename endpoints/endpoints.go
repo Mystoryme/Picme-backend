@@ -54,7 +54,7 @@ func Init(router fiber.Router) {
 
 	insight := router.Group("insight/", middlewares.Jwt())
 	insight.Get("/", insightEndpoint.GetHandler)
-	insight.Get("/search", insightEndpoint.GetSearch)
+	insight.Post("/search", insightEndpoint.GetSearch)
 	insight.Post("/view_profile", insightEndpoint.ViewProfile)
 	insight.Get("/search_history", insightEndpoint.GetViewHistory)
 }
