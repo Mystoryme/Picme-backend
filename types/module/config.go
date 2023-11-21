@@ -7,5 +7,6 @@ type Config struct {
 	BucketEndpoint string   `yaml:"bucket_endpoint" validate:"required"`
 	BucketName     string   `yaml:"bucket_name" validate:"required"`
 	BucketKey      string   `yaml:"bucket_key"  validate:"required"`
-	BucketSecret   string   `yaml:"bucket_secret" validate:"required" `
+	BucketSecret   string   `yaml:"bucket_secret" validate:"required"`
+	AutoMigrate    bool     `yaml:"auto_migrate"`
 }

@@ -40,7 +40,13 @@ func Init() {
 	} else {
 		mod.DB = db
 	}
-	migrate()
+
+	if mod.Conf.AutoMigrate {
+		err := migrate()
+		if err != nil {
+			panic(err)
+		}
+	}
 	logrus.Debug("INITIALIZED MYSQL CONNECTION")
 }
 
