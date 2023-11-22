@@ -40,6 +40,7 @@ func DonateHandler(c *fiber.Ctx) error {
 	donate := &table.PostDonate{
 		User:         nil,
 		UserId:       l.Id,
+		Paid:         nil,
 		Post:         nil,
 		PostId:       body.PostId,
 		DonateAmount: body.DonateAmount,
