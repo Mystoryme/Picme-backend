@@ -1,6 +1,8 @@
 package postEndpoint
 
 import (
+	"github.com/gofiber/fiber/v2"
+	"github.com/golang-jwt/jwt/v4"
 	"picme-backend/helper"
 	mod "picme-backend/modules"
 	"picme-backend/types/misc"
@@ -8,9 +10,6 @@ import (
 	"picme-backend/types/response"
 	"picme-backend/types/table"
 	"picme-backend/utils/text"
-
-	"github.com/gofiber/fiber/v2"
-	"github.com/golang-jwt/jwt/v4"
 )
 
 func DonateHandler(c *fiber.Ctx) error {
@@ -40,7 +39,7 @@ func DonateHandler(c *fiber.Ctx) error {
 	donate := &table.PostDonate{
 		User:         nil,
 		UserId:       l.Id,
-		Paid:         nil,
+		Paid:         text.Ptr(false),
 		Post:         nil,
 		PostId:       body.PostId,
 		DonateAmount: body.DonateAmount,
