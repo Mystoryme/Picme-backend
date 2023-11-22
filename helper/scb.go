@@ -60,13 +60,12 @@ func scbGetAccessToken() string {
 func ScbCreateQrPayment() {
 	accessToken := scbGetAccessToken()
 
-	url := mod.Conf.ScbUrl + "/payment/qrcode/create"
-
+	url := mod.Conf.ScbUrl + "/v1/payment/qrcode/create"
 	createQrBody := payload.ScbCreateQrPaymentRequest{
 		QrType: "PP",
-		Amount: "100.00",
+		Amount: "100",
 		PpType: "BILLERID",
-		PpId:   "1234567890",
+		PpId:   mod.Conf.ScbBillerId,
 		Ref1:   "1234567890",
 		Ref2:   "1234567890",
 		Ref3:   "1234567890",

@@ -12,4 +12,5 @@ type Config struct {
 	ScbUrl         string   `yaml:"scb_url" validate:"required"`
 	ScbAppKey      string   `yaml:"scb_app_key" validate:"required"`
 	ScbAppSecret   string   `yaml:"scb_app_secret" validate:"required"`
+	ScbBillerId    string   `yaml:"scb_biller_id" validate:"required"`
 }
