@@ -8,6 +8,7 @@ import (
 	"net/http"
 	mod "picme-backend/modules"
 	"picme-backend/types/payload"
+	"strconv"
 )
 
 func scbGetAccessToken() string {
@@ -34,7 +35,7 @@ func scbGetAccessToken() string {
 	req.Header.Add("content-type", "application/json")
 	req.Header.Add("accept-language", "EN")
 	req.Header.Add("resourceOwnerId", mod.Conf.ScbAppKey)
-	req.Header.Add("requestUId", "1234567890")
+	req.Header.Add("requestUId", "PICME_PAYMENT_SYSTEM")
 
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
@@ -57,18 +58,17 @@ func scbGetAccessToken() string {
 	return tokenResponse.Data.AccessToken
 }
 
-func ScbCreateQrPayment() {
+func ScbCreateQrPayment(amount uint, userId uint, donateToId uint) payload.ScbCreateQrDataResponse {
 	accessToken := scbGetAccessToken()
 
 	url := mod.Conf.ScbUrl + "/v1/payment/qrcode/create"
 	createQrBody := payload.ScbCreateQrPaymentRequest{
 		QrType: "PP",
-		Amount: "100",
+		Amount: strconv.Itoa(int(amount)),
 		PpType: "BILLERID",
 		PpId:   mod.Conf.ScbBillerId,
-		Ref1:   "1234567890",
-		Ref2:   "1234567890",
-		Ref3:   "1234567890",
+		Ref1:   "PICME_" + strconv.Itoa(int(userId)) + "_DONATE",
+		Ref3:   "PICME_DONATE_TO_" + strconv.Itoa(int(donateToId)),
 	}
 
 	// Convert struct to JSON
@@ -108,4 +108,6 @@ func ScbCreateQrPayment() {
 		logrus.Error("Unable to parse response body ", err)
 		panic(err)
 	}
+
+	return qrResponse.Data
 }

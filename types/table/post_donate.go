@@ -8,6 +8,7 @@ type PostDonate struct {
 	Post         *Post      `gorm:"foreignKey:PostId"`
 	PostId       *uint64    `gorm:"not null"` //postที่โดนdonate
 	DonateAmount *uint64    `gorm:"not null"`
+	Paid         *bool      `gorm:"not null"`
 	CreatedAt    *time.Time `gorm:"not null"` // Embedded field
 
 }
