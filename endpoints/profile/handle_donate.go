@@ -1,8 +1,8 @@
 package profileEndpoint
 
 import (
+	"picme-backend/helper"
 	mod "picme-backend/modules"
-	"picme-backend/types/enum"
 	"picme-backend/types/misc"
 	"picme-backend/types/payload"
 	"picme-backend/types/response"
@@ -30,35 +30,47 @@ func DonateHandler(c *fiber.Ctx) error {
 
 	//create
 	//ctr+space เติมfillแบบรวดเร็ว
+	transactionId := text.GenerateTransactionId(10)
 
 	donate := &table.UserDonate{
-		Donor:        nil,
-		DonorId:      l.Id,
-		User:         nil,
-		UserId:       body.UserId,
-		DonateAmount: body.DonateAmount,
-		CreatedAt:    nil,
+		Donor:         nil,
+		DonorId:       l.Id,
+		Paid:          text.Ptr(false),
+		User:          nil,
+		UserId:        body.UserId,
+		DonateAmount:  body.DonateAmount,
+		TransactionId: &transactionId,
+		CreatedAt:     nil,
 	}
 
 	if result := mod.DB.Create(donate); result.Error != nil {
 		return response.Error(false, "Unable to donate artist", result.Error)
 	}
 
-	userDonateType := enum.NotificationUserDonate
-	notification := &table.Notification{
-		Trigger:          nil,
-		TriggerId:        l.Id,
-		Post:             nil,
-		PostId:           nil,
-		Triggee:          nil,
-		TriggeeId:        body.UserId,
-		NotificationType: &userDonateType,
-		CreatedAt:        nil,
+	// create qr code
+	qrData := helper.ScbCreateQrPayment(uint(*body.DonateAmount), transactionId)
+
+	donateResponse := payload.CreateDonateQrResponse{
+		TransactionId: transactionId,
+		QrImage:       qrData.QrImage,
+		QrRawData:     qrData.QrRawData,
 	}
 
-	if result := mod.DB.Create(&notification); result.Error != nil {
-		return response.Error(false, "Unable to create notification", result.Error)
-	}
+	//userDonateType := enum.NotificationUserDonate
+	//notification := &table.Notification{
+	//	Trigger:          nil,
+	//	TriggerId:        l.Id,
+	//	Post:             nil,
+	//	PostId:           nil,
+	//	Triggee:          nil,
+	//	TriggeeId:        body.UserId,
+	//	NotificationType: &userDonateType,
+	//	CreatedAt:        nil,
+	//}
+	//
+	//if result := mod.DB.Create(&notification); result.Error != nil {
+	//	return response.Error(false, "Unable to create notification", result.Error)
+	//}
 
-	return c.JSON(response.Info("Successfully donate!"))
+	return c.JSON(response.Info(donateResponse))
 }
