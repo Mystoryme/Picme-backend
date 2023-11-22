@@ -59,8 +59,8 @@ type ProfileQuery struct {
 }
 
 type DonateBody struct {
-	UserId       *uint64 `json:"userId"`
-	DonateAmount *uint64 `json:"donateAmount"`
+	UserId       *uint64 `json:"userId" validate:"required"`
+	DonateAmount *uint64 `json:"donateAmount" validate:"required"`
 }
 
 type SearchBody struct {

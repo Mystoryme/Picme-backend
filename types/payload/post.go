@@ -53,8 +53,8 @@ type BoostBody struct {
 }
 
 type CreateDonateBody struct {
-	PostId       *uint64 `json:"postId"`
-	DonateAmount *uint64 `json:"donateAmount"`
+	PostId       *uint64 `json:"postId" validate:"required"`
+	DonateAmount *uint64 `json:"donateAmount" validate:"required"`
 }
 
 type DeletePostRequest struct {
