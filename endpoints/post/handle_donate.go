@@ -51,7 +51,7 @@ func DonateHandler(c *fiber.Ctx) error {
 	}
 
 	// create qr code
-	qrData := helper.ScbCreateQrPayment(uint(*body.DonateAmount), uint(*l.Id), uint(*body.PostId))
+	qrData := helper.ScbCreateQrPayment(uint(*body.DonateAmount))
 
 	//postDonateType := enum.NotificationPostDonate
 	//notification := &table.Notification{

@@ -58,17 +58,18 @@ func scbGetAccessToken() string {
 	return tokenResponse.Data.AccessToken
 }
 
-func ScbCreateQrPayment(amount uint, userId uint, donateToId uint) payload.ScbCreateQrDataResponse {
+func ScbCreateQrPayment(amount uint) payload.ScbCreateQrDataResponse {
 	accessToken := scbGetAccessToken()
 
 	url := mod.Conf.ScbUrl + "/v1/payment/qrcode/create"
 	createQrBody := payload.ScbCreateQrPaymentRequest{
 		QrType: "PP",
-		Amount: strconv.Itoa(int(amount)),
+		Amount: strconv.Itoa(int(amount)) + ".00",
 		PpType: "BILLERID",
 		PpId:   mod.Conf.ScbBillerId,
-		Ref1:   "PICME_" + strconv.Itoa(int(userId)) + "_DONATE",
-		Ref3:   "PICME_DONATE_TO_" + strconv.Itoa(int(donateToId)),
+		Ref1:   "PICME01",
+		Ref2:   "PICME01",
+		Ref3:   "PICME01",
 	}
 
 	// Convert struct to JSON
