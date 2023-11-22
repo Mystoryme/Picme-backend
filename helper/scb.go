@@ -58,7 +58,7 @@ func scbGetAccessToken() string {
 	return tokenResponse.Data.AccessToken
 }
 
-func ScbCreateQrPayment(amount uint) payload.ScbCreateQrDataResponse {
+func ScbCreateQrPayment(amount uint, transactionId string) payload.ScbCreateQrDataResponse {
 	accessToken := scbGetAccessToken()
 
 	url := mod.Conf.ScbUrl + "/v1/payment/qrcode/create"
@@ -67,7 +67,7 @@ func ScbCreateQrPayment(amount uint) payload.ScbCreateQrDataResponse {
 		Amount: strconv.Itoa(int(amount)) + ".00",
 		PpType: "BILLERID",
 		PpId:   mod.Conf.ScbBillerId,
-		Ref1:   "PICME01",
+		Ref1:   transactionId,
 		Ref2:   "PICME01",
 		Ref3:   "PICME01",
 	}

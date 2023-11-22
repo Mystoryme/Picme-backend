@@ -49,3 +49,11 @@ type ScbCreateQrDataResponse struct {
 	QrRawData string `json:"qrRawData,omitempty"`
 	QrImage   string `json:"qrImage,omitempty"`
 }
+
+// Donate response
+
+type CreateDonateQrResponse struct {
+	QrRawData     string `json:"qrRawData,omitempty"`
+	QrImage       string `json:"qrImage,omitempty"`
+	TransactionId string `json:"transactionId,omitempty"`
+}

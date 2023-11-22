@@ -36,14 +36,17 @@ func DonateHandler(c *fiber.Ctx) error {
 		return response.Error(false, "Unable to query post", result.Error)
 	}
 
+	transactionId := text.GenerateTransactionId(10)
+
 	donate := &table.PostDonate{
-		User:         nil,
-		UserId:       l.Id,
-		Paid:         text.Ptr(false),
-		Post:         nil,
-		PostId:       body.PostId,
-		DonateAmount: body.DonateAmount,
-		CreatedAt:    nil,
+		User:          nil,
+		UserId:        l.Id,
+		Paid:          text.Ptr(false),
+		Post:          nil,
+		PostId:        body.PostId,
+		DonateAmount:  body.DonateAmount,
+		TransactionId: &transactionId,
+		CreatedAt:     nil,
 	}
 
 	if result := mod.DB.Create(donate); result.Error != nil {
@@ -51,7 +54,13 @@ func DonateHandler(c *fiber.Ctx) error {
 	}
 
 	// create qr code
-	qrData := helper.ScbCreateQrPayment(uint(*body.DonateAmount))
+	qrData := helper.ScbCreateQrPayment(uint(*body.DonateAmount), transactionId)
+
+	donateResponse := payload.CreateDonateQrResponse{
+		TransactionId: transactionId,
+		QrImage:       qrData.QrImage,
+		QrRawData:     qrData.QrRawData,
+	}
 
 	//postDonateType := enum.NotificationPostDonate
 	//notification := &table.Notification{
@@ -69,5 +78,5 @@ func DonateHandler(c *fiber.Ctx) error {
 	//	return response.Error(false, "Unable to create notification", result.Error)
 	//}
 
-	return c.JSON(response.Info(qrData))
+	return c.JSON(response.Info(donateResponse))
 }
