@@ -23,6 +23,7 @@ func Init(router fiber.Router) {
 	profile.Get("/gridpost", profileEndpoint.GridPostGetHandler)
 	profile.Get("/bookmarkpost", profileEndpoint.BookmarkPostGetHandler)
 	profile.Post("/donate", profileEndpoint.DonateHandler)
+	profile.Post("/donate/inquiry", profileEndpoint.DonateUserInquiry)
 	profile.Post("/edit", profileEndpoint.EditHandler)
 	profile.Post("/search", profileEndpoint.SearchHandler)
 	profile.Post("/profile_search", profileEndpoint.ProfileSearchGetHandler)
