@@ -39,6 +39,7 @@ func Init(router fiber.Router) {
 	post.Post("/bookmark", postEndpoint.BookmarkHandler)
 	post.Delete("/delete", postEndpoint.DeleteHandler)
 	post.Post("/donate", postEndpoint.DonateHandler)
+	post.Post("/donate/inquiry", postEndpoint.DonateInquiry)
 	post.Post("/view", postEndpoint.ViewHandler)
 	post.Post("/boost", postEndpoint.BoostHandler)
 	post.Get("/listboost", postEndpoint.GetBoostHandler)
