@@ -36,32 +36,33 @@ func BoostHandler(c *fiber.Ctx) error {
 	//ctr+space เติมfillแบบรวดเร็ว
 	transactionId := text.GenerateTransactionId(10)
 
-	if boostCount == 0 {
-		boost := &table.PostBoost{
-			Id:            nil,
-			Post:          nil,
-			Paid:          text.Ptr(false),
-			Amount:        body.Amount,
-			PostId:        body.PostId,
-			BoostEnd:      &boostEnd,
-			TransactionId: &transactionId,
-		}
-
-		if result := mod.DB.Create(boost); result.Error != nil {
-			return response.Error(false, "Unable to boost post", result.Error)
-		}
-
-		// create qr code
-		qrData := helper.ScbCreateQrPayment(uint(*body.Amount), transactionId)
-
-		donateResponse := payload.CreateDonateQrResponse{
-			TransactionId: transactionId,
-			QrImage:       qrData.QrImage,
-			QrRawData:     qrData.QrRawData,
-		}
-
-		return c.JSON(response.Info(donateResponse))
+	if boostCount != 0 {
+		return response.Error(false, "The post already boost!")
 	}
 
-	return c.JSON(response.Info("Successfully boost!"))
+	boost := &table.PostBoost{
+		Id:            nil,
+		Post:          nil,
+		Paid:          text.Ptr(false),
+		Amount:        body.Amount,
+		PostId:        body.PostId,
+		BoostEnd:      &boostEnd,
+		TransactionId: &transactionId,
+	}
+
+	if result := mod.DB.Create(boost); result.Error != nil {
+		return response.Error(false, "Unable to boost post", result.Error)
+	}
+
+	// create qr code
+	qrData := helper.ScbCreateQrPayment(uint(*body.Amount), transactionId)
+
+	donateResponse := payload.CreateDonateQrResponse{
+		TransactionId: transactionId,
+		QrImage:       qrData.QrImage,
+		QrRawData:     qrData.QrRawData,
+	}
+
+	return c.JSON(response.Info(donateResponse))
+
 }

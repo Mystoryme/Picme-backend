@@ -39,6 +39,9 @@ func GetHandler(c *fiber.Ctx) error {
 	// * Map table to payload
 	mappedNotifications := make([]*payload.NotificationResponse, 0)
 	for _, notification := range notifications {
+		if notification.PostId == nil {
+			continue
+		}
 		mappedNotifications = append(mappedNotifications, &payload.NotificationResponse{
 			Id: notification.Id,
 			Trigger: &payload.ProfileInfo{
@@ -48,7 +51,7 @@ func GetHandler(c *fiber.Ctx) error {
 			},
 			TriggerId: notification.TriggerId,
 			Post: &payload.PostResponse{
-				PostId: notification.Post.Id,			},
+				PostId: notification.Post.Id},
 			PostId:           notification.PostId,
 			NotificationType: notification.NotificationType,
 			CreatedAt:        notification.CreatedAt,
