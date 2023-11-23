@@ -43,6 +43,7 @@ func Init(router fiber.Router) {
 	post.Post("/donate/inquiry", postEndpoint.DonateInquiry)
 	post.Post("/view", postEndpoint.ViewHandler)
 	post.Post("/boost", postEndpoint.BoostHandler)
+	post.Post("/boost/inquiry", postEndpoint.BoostInquiry)
 	post.Get("/listboost", postEndpoint.GetBoostHandler)
 	post.Post("/post_get", postEndpoint.GetPostHandler)
 
