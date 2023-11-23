@@ -2,6 +2,7 @@ package postEndpoint
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"picme-backend/helper"
 	mod "picme-backend/modules"
 	"picme-backend/types/payload"
 	"picme-backend/types/response"
@@ -33,17 +34,33 @@ func BoostHandler(c *fiber.Ctx) error {
 	boostEnd := time.Now().AddDate(0, 0, *body.BoostDay)
 	//create
 	//ctr+space เติมfillแบบรวดเร็ว
+	transactionId := text.GenerateTransactionId(10)
+
 	if boostCount == 0 {
 		boost := &table.PostBoost{
-			Id:       nil,
-			Post:     nil,
-			PostId:   body.PostId,
-			BoostEnd: &boostEnd,
+			Id:            nil,
+			Post:          nil,
+			Paid:          text.Ptr(false),
+			Amount:        body.Amount,
+			PostId:        body.PostId,
+			BoostEnd:      &boostEnd,
+			TransactionId: &transactionId,
 		}
 
 		if result := mod.DB.Create(boost); result.Error != nil {
 			return response.Error(false, "Unable to boost post", result.Error)
 		}
+
+		// create qr code
+		qrData := helper.ScbCreateQrPayment(uint(*body.Amount), transactionId)
+
+		donateResponse := payload.CreateDonateQrResponse{
+			TransactionId: transactionId,
+			QrImage:       qrData.QrImage,
+			QrRawData:     qrData.QrRawData,
+		}
+
+		return c.JSON(response.Info(donateResponse))
 	}
 
 	return c.JSON(response.Info("Successfully boost!"))

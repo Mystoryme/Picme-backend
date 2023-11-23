@@ -50,6 +50,7 @@ type ViewBody struct {
 type BoostBody struct {
 	PostId   *uint64 `json:"postId"`
 	BoostDay *int    `json:"boostDay"`
+	Amount   *uint64 `json:"amount"`
 }
 
 type CreateDonateBody struct {
