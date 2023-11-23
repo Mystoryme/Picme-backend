@@ -40,6 +40,7 @@ func GetHandler(c *fiber.Ctx) error {
 	for _, comment := range comments {
 
 		mappedComments = append(mappedComments, &payload.CommentRespond{
+			Id:        comment.Id,
 			UserId:    comment.UserId,
 			Username:  comment.User.Username,
 			PostId:    comment.PostId,

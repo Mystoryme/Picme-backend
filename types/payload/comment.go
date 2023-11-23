@@ -14,6 +14,7 @@ type DeleteCommentRequest struct {
 }
 
 type CommentRespond struct {
+	Id        *uint64 `json:"Id"`
 	UserId    *uint64 `json:"userId"`
 	Username  *string `json:"username"`
 	PostId    *uint64 `json:"postId"`
