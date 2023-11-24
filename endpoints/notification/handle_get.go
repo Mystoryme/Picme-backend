@@ -39,26 +39,34 @@ func GetHandler(c *fiber.Ctx) error {
 	// * Map table to payload
 	mappedNotifications := make([]*payload.NotificationResponse, 0)
 	for _, notification := range notifications {
-		if notification.PostId == nil {
-			continue
-		}
 		if *notification.TriggerId == *l.Id {
 			continue
 		}
-		mappedNotifications = append(mappedNotifications, &payload.NotificationResponse{
+
+		pl := &payload.NotificationResponse{
 			Id: notification.Id,
 			Trigger: &payload.ProfileInfo{
 				Id:        notification.Trigger.Id,
 				Username:  notification.Trigger.Username,
 				AvatarUrl: notification.Trigger.AvatarUrl,
 			},
-			TriggerId: notification.TriggerId,
-			Post: &payload.PostResponse{
-				PostId: notification.Post.Id},
-			PostId:           notification.PostId,
+			TriggerId:        notification.TriggerId,
+			Post:             nil,
+			PostId:           nil,
 			NotificationType: notification.NotificationType,
 			CreatedAt:        notification.CreatedAt,
-		})
+		}
+
+		if notification.PostId == nil {
+			mappedNotifications = append(mappedNotifications, pl)
+			continue
+		}
+
+		pl.Post = &payload.PostResponse{
+			PostId: notification.Post.Id,
+		}
+		pl.PostId = notification.PostId
+		mappedNotifications = append(mappedNotifications, pl)
 	}
 
 	return c.JSON(response.Info(map[string]any{
