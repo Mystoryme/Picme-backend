@@ -19,7 +19,7 @@ func GetViewHistory(c *fiber.Ctx) error {
 
 	insights := make([]table.Insight, 0)
 	insightsResponse := make([]payload.InsightResponse, 0)
-	mod.DB.Table("insights").Preload("Triggee").Preload("Trigger").Where("trigger_id = ? AND insight_type = 'view'", l.Id).Find(&insights).Limit(4)
+	mod.DB.Table("insights").Preload("Triggee").Preload("Trigger").Where("trigger_id = ? AND insight_type = 'view'", l.Id).Limit(4).Find(&insights)
 
 	for _, insight := range insights {
 		insightsResponse = append(insightsResponse, payload.InsightResponse{
@@ -30,9 +30,9 @@ func GetViewHistory(c *fiber.Ctx) error {
 			},
 			TriggerId: insight.TriggerId,
 			Triggee: &payload.ProfileInfo{
-				Id:        insight.Trigger.Id,
-				Username:  insight.Trigger.Username,
-				AvatarUrl: insight.Trigger.AvatarUrl,
+				Id:        insight.Triggee.Id,
+				Username:  insight.Triggee.Username,
+				AvatarUrl: insight.Triggee.AvatarUrl,
 			},
 			TriggeeId:   insight.TriggeeId,
 			InsightType: insight.InsightType,

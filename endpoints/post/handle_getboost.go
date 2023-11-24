@@ -27,6 +27,9 @@ func GetBoostHandler(c *fiber.Ctx) error {
 	//make ถ้าเป็น null จะเป็น array เปล่า
 	mappedPosts := make([]*payload.BoostPostResponse, 0)
 	for _, post := range boostpost {
+		if post.PostId == nil {
+			continue
+		}
 
 		mappedPosts = append(mappedPosts, &payload.BoostPostResponse{
 			PostId:   post.PostId,

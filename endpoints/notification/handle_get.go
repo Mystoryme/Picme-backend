@@ -42,6 +42,9 @@ func GetHandler(c *fiber.Ctx) error {
 		if notification.PostId == nil {
 			continue
 		}
+		if *notification.TriggerId == *l.Id {
+			continue
+		}
 		mappedNotifications = append(mappedNotifications, &payload.NotificationResponse{
 			Id: notification.Id,
 			Trigger: &payload.ProfileInfo{

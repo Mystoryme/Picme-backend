@@ -31,29 +31,27 @@ func ViewProfile(c *fiber.Ctx) error {
 		return err
 	}
 
-	go func() {
-		insightViewType := enum.InsightView
+	insightViewType := enum.InsightView
 
-		if l.Id == body.UserId {
-			return
-		}
+	if l.Id == body.UserId {
+		return c.JSON(response.Info("Successfully viewed profile"))
+	}
 
-		// check if there's existing insight
-		if result := mod.DB.Table("insights").Where("trigger_id = ? AND triggee_id = ? AND insight_type = ?", l.Id, body.UserId, insightViewType).First(&table.Insight{}); result.Error == nil {
-			return
-		}
+	// check if there's existing insight
+	if result := mod.DB.Table("insights").Where("trigger_id = ? AND triggee_id = ? AND insight_type = ?", l.Id, body.UserId, insightViewType).First(&table.Insight{}); result.Error == nil {
+		return c.JSON(response.Info("Successfully viewed profile"))
+	}
 
-		if result := mod.DB.Create(&table.Insight{
-			Trigger:     nil,
-			TriggerId:   l.Id,
-			Triggee:     nil,
-			TriggeeId:   body.UserId,
-			InsightType: &insightViewType,
-			CreatedAt:   nil,
-		}); result.Error != nil {
-			fmt.Printf("Unable to create insight %v", result.Error)
-		}
-	}()
+	if result := mod.DB.Create(&table.Insight{
+		Trigger:     nil,
+		TriggerId:   l.Id,
+		Triggee:     nil,
+		TriggeeId:   body.UserId,
+		InsightType: &insightViewType,
+		CreatedAt:   nil,
+	}); result.Error != nil {
+		fmt.Printf("Unable to create insight %v", result.Error)
+	}
 
 	return c.JSON(response.Info("Successfully profile view!"))
 }
