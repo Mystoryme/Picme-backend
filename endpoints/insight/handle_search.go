@@ -11,7 +11,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func GetSearch(c *fiber.Ctx) error {
+func PostSearch(c *fiber.Ctx) error {
 
 	// Parse body
 	body := new(payload.SearchQuery)
