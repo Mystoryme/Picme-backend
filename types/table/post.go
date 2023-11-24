@@ -1,6 +1,7 @@
 package table
 
 import (
+	"gorm.io/gorm"
 	"picme-backend/types/enum"
 	"time"
 )
@@ -15,4 +16,5 @@ type Post struct {
 	Application *enum.Application `gorm:"type:ENUM('procreate', 'ibis_paintX','clip_studio_paint','blender','photoshop','other'); not null"`
 	CreatedAt   *time.Time        `gorm:"not null"` // Embedded field
 	UpdatedAt   *time.Time        `gorm:"not null"` // Embedded field
+	DeletedAt   *gorm.DeletedAt   `gorm:"null"`     // Embedded field
 }
