@@ -4,6 +4,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v4"
 	mod "picme-backend/modules"
+	"picme-backend/types/enum"
 	"picme-backend/types/misc"
 	"picme-backend/types/payload"
 	"picme-backend/types/response"
@@ -65,9 +66,14 @@ func DeleteHandler(c *fiber.Ctx) error {
 		//delete postdonate
 		var donate *table.PostDonate
 		if result := mod.DB.Where("post_id = ? ", body.PostId).Delete(&donate); result.Error != nil {
-			return response.Error(false, "Unable to delete the ", result.Error)
+			return response.Error(false, "Unable to delete donate ", result.Error)
 		}
-
+		//delete noti
+		var notification *table.Notification
+		if result := mod.DB.Where("(post_id = ? and notification_type = ?) or (post_id = ? and notification_type = ?)",
+			body.PostId, enum.NotificationComment, body.PostId, enum.NotificationLike).Delete(&notification); result.Error != nil {
+			return response.Error(false, "Unable to delete noti", result.Error)
+		}
 		//delete post
 
 		if result := mod.DB.Where("id = ?  ", body.PostId).Delete(&post); result.Error != nil {

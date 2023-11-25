@@ -32,7 +32,7 @@ func GetHandler(c *fiber.Ctx) error {
 
 	// * Query posts
 	var notifications []*table.Notification
-	if result := db.Where("triggee_id = ?", l.Id).Find(&notifications); result.Error != nil {
+	if result := db.Unscoped().Where("triggee_id = ?", l.Id).Find(&notifications); result.Error != nil {
 		return response.Error(false, "Unable to query notifications", result.Error)
 	}
 
