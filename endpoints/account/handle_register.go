@@ -22,6 +22,17 @@ func RegisterHandler(c *fiber.Ctx) error {
 		return err
 	}
 
+	// * Check Duplicated Email
+	var checkDuplicateUser *table.User
+	if result := mod.DB.First(&checkDuplicateUser, "email = ?", body.Email); result.Error == nil {
+		return response.Error(false, "Duplicated email")
+	}
+
+	// * Compare Password
+	if *body.Password != *body.ConfirmPassword {
+		return response.Error(false, "The Password confirmation does not match")
+	}
+
 	// * Hash password
 	hashedPassword, err := crypto.HashPassword(*body.Password)
 	if err != nil {
