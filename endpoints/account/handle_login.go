@@ -30,7 +30,7 @@ func LoginHandler(c *fiber.Ctx) error {
 	}
 
 	// * Check password
-	if crypto.ComparePassword(*body.Password, *user.Password) {
+	if !crypto.ComparePassword(*user.Password, *body.Password) {
 		return response.Error(false, "Incorrect password")
 	}
 
