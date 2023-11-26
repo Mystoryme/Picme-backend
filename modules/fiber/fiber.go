@@ -2,6 +2,7 @@ package fiber
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/sirupsen/logrus"
 	"picme-backend/endpoints"
 	mod "picme-backend/modules"
@@ -18,6 +19,8 @@ func Init() {
 		ReadTimeout:   5 * time.Second,
 		WriteTimeout:  5 * time.Second,
 	})
+
+	app.Use(recover.New())
 
 	// Initialize API endpoints
 	apiGroup := app.Group("api/")
