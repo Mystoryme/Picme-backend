@@ -8,6 +8,7 @@ import (
 	"picme-backend/types/table"
 	"picme-backend/utils/crypto"
 	"picme-backend/utils/text"
+	"strings"
 )
 
 func RegisterHandler(c *fiber.Ctx) error {
@@ -28,11 +29,20 @@ func RegisterHandler(c *fiber.Ctx) error {
 		return response.Error(false, "Duplicated email")
 	}
 
+	// * Check that username has more than 4 charactor
+	if !strings.Contains(*body.Email, "@") {
+		return response.Error(false, "Invalid email address")
+	}
+	if len(*body.Username) < 4 {
+		return response.Error(false, "Required 4 character or more")
+	}
+	if len(*body.Password) < 4 {
+		return response.Error(false, "Required 8 character or more")
+	}
 	// * Compare Password
 	if *body.Password != *body.ConfirmPassword {
 		return response.Error(false, "The Password confirmation does not match")
 	}
-
 	// * Hash password
 	hashedPassword, err := crypto.HashPassword(*body.Password)
 	if err != nil {

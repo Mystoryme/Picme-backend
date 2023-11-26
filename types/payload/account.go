@@ -1,10 +1,10 @@
 package payload
 
 type RegisterRequest struct {
-	Username        *string `json:"username"`
-	Password        *string `json:"password"`
-	Email           *string `json:"email"`
-	ConfirmPassword *string `json:"confirmPassword"`
+	Username        *string `json:"username" validate:"required"`
+	Password        *string `json:"password" validate:"required"`
+	Email           *string `json:"email" validate:"required"`
+	ConfirmPassword *string `json:"confirmPassword" validate:"required"`
 }
 
 type RegisterResponse struct {

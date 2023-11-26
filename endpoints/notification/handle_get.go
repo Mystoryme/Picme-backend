@@ -28,7 +28,7 @@ func GetHandler(c *fiber.Ctx) error {
 		return err
 	}
 
-	db := mod.DB.Preload("Trigger").Preload("Triggee").Preload("Post")
+	db := mod.DB.Preload("Trigger").Preload("Triggee").Preload("Post").Order("created_at desc")
 
 	// * Query posts
 	var notifications []*table.Notification

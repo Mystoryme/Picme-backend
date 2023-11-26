@@ -19,7 +19,7 @@ func GetViewHistory(c *fiber.Ctx) error {
 
 	insights := make([]table.Insight, 0)
 	insightsResponse := make([]payload.InsightResponse, 0)
-	mod.DB.Table("insights").Preload("Triggee").Preload("Trigger").Where("trigger_id = ? AND insight_type = 'view'", l.Id).Limit(4).Find(&insights)
+	mod.DB.Table("insights").Preload("Triggee").Preload("Trigger").Where("trigger_id = ? AND insight_type = 'view'", l.Id).Limit(4).Order("created_at desc").Find(&insights)
 
 	for _, insight := range insights {
 		insightsResponse = append(insightsResponse, payload.InsightResponse{
